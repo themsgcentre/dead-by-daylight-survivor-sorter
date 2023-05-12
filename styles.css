@@ -1,0 +1,196 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: consolas;
+    box-sizing: border-box;
+}
+
+body { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    flex-direction: column;
+    background-image: url('res/background.gif');
+    /*margin: 0 auto;
+    background: #031321;*/
+}
+
+/* Sorter buttons*/
+
+.box {
+    position: relative;
+    display: inline-block;
+}
+
+#mainTable { 
+    padding: 0;
+    font-size: 19px; 
+    font-family: 'Times New Roman', serif; 
+    text-align: center; 
+    vertical-align: middle;
+    width: 800px; 
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: separate;
+    border-spacing: 10px 10px;
+}
+
+ 
+#leftField {
+    padding: 0;
+    width: 300px;
+    height: 350px;
+    cursor: pointer;
+    border: 3px solid #22ccd4;
+}
+ 
+#rightField {
+    padding: 0;
+    width: 300px;
+    height: 350px;
+    cursor: pointer;
+    border: 3px solid #22ccd4;
+}
+ 
+.middleField {
+    letter-spacing: 4px;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #22ccd4;
+    font-family: consolas;
+    width: 200px;
+    height: 170px;
+    border: 3px solid #22ccd4;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.middleField:hover {
+    background: #22ccd4;
+    color: #050801;
+    box-shadow: 0 0 5px #22ccd4, /*#03e9f4 */
+                0 0 25px #22ccd4,
+                0 0 50px #22ccd4,
+                0 0 200px #22ccd4;
+}
+
+.resultTable {
+    width: 440px;
+    font-family: consolas;
+    font-size: 18px;
+    text-transform: uppercase;
+    line-height:120%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    border: 2px solid #22ccd4; 
+    border-collapse: collapse;
+    color: #22ccd4;
+}
+
+/* text */
+ 
+a {
+    color: rgb(206, 206, 206);
+    text-transform: uppercase;
+    text-decoration : none;
+    font-family: consolas;
+    text-decoration: underline;
+}
+ 
+a:hover {
+    color: #8f8f8f;
+    text-decoration: underline;
+}
+
+b {
+    font-family: consolas;
+    font-size: 30px;
+    text-transform: uppercase;
+    color: white;
+}
+
+.instructions {
+    /*text-align: justify;*/
+    font-family: consolas;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgb(206, 206, 206);
+}
+
+.note {
+    font-family: consolas;
+    font-size: 7px;
+    text-transform: uppercase;
+    color: rgb(153, 153, 153);
+} 
+
+.warning {
+    font-family: consolas;
+    font-size: 6px;
+    text-transform: uppercase;
+    color: #22ccd4;
+}
+
+.socialmedia {
+    font-family: consolas;
+    width: 250px;
+    font-size: 15px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #22ccd4;
+}
+
+
+/* ------------------------------------- images --------------------------------------*/
+
+.img-area {
+    position: relative;
+    height: 350px;
+    width: 300px;
+    margin: 0;
+}
+
+.img-area img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 350px;
+    width: 300px;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.img-area img.img-front:hover {
+    opacity: 0;
+}
+
+.social-area {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    margin: 0;
+}
+
+.social-area img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 50px;
+    width: 50px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.social-area img.img-front:hover {
+    opacity: 0;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+
+ 

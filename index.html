@@ -1,0 +1,976 @@
+
+<!DOCTYPE html>
+<script>var __pbpa = true;</script><script>var translated_warning_string = 'Warning: Never enter your Tumblr password unless \u201chttps://www.tumblr.com/login\u201d\x0ais the address in your web browser.\x0a\x0aYou should also see a green \u201cTumblr, Inc.\u201d identification in the address bar.\x0a\x0aSpammers and other bad guys use fake forms to steal passwords.\x0a\x0aTumblr will never ask you to log in from a user\u2019s blog.\x0a\x0aAre you absolutely sure you want to continue?';</script><script type="text/javascript" language="javascript" src="https://assets.tumblr.com/assets/scripts/pre_tumblelog.js?_v=66ac555bc5745ebe20abdae7cbc40704"></script>
+<!doctype HTML>
+<style>figure{margin:0}.tmblr-iframe{position:absolute}.tmblr-iframe.hide{display:none}.tmblr-iframe--amp-cta-button{visibility:hidden;position:fixed;bottom:10px;left:50%;transform:translateX(-50%);z-index:100}.tmblr-iframe--amp-cta-button.tmblr-iframe--loaded{visibility:visible;animation:iframe-app-cta-transition .2s ease-out}</style><link rel="stylesheet" media="screen" href="https://assets.tumblr.com/client/prod/standalone/blog-network-npf/index.build.css?_v=c451b85cf126275a22cf7ca62ddacdc0"><link rel="shortcut icon" href="http://sv.tinypic.com?ref=qq68e9">
+ 
+<html>
+
+ 
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"> 
+<meta http-equiv="Content-Style-Type" content="text/css"> 
+<meta http-equiv="Content-Script-Type" content="text/javascript"> 
+
+<script type="text/javascript"> 
+//<!--
+ 
+var namMember = new Array(
+"dwight fairfield",
+"meg thomas",
+"claudette morel", 
+"jake park", 
+"nea karlsson",
+"laurie strode",
+"ace visconti",
+"bill overbeck",
+"feng min",
+"david king",
+"quentin smith",
+"detective tapp",
+"kate denson",
+"adam francis",
+"jeff johansen",
+"jane romero",
+"ashley j. williams",
+"nancy wheeler",
+"steve harrington",
+"yui kimura",
+"zarina kassir",
+"cheryl mason",
+"felix richter",
+"elodie rakoto",
+"yun-jin lee",
+"jill valentine",
+"leon s. kennedy",
+"mikaela reid",
+"jonah vasquez",
+"yoichi asakawa",
+"haddie kaur",
+"ada wong",
+"rebecca chambers",
+"vittorio toscano",
+"thalita lyra",
+"renato lyra"
+);
+ 
+ 
+//****************************************************************
+ 
+var lstMember = new Array(); 
+var parent = new Array(); 
+var equal = new Array(); 
+var rec = new Array(); 
+var cmp1,cmp2; 
+var head1,head2;
+var nrec;  
+var numQuestion; 
+var totalSize; 
+var finishSize;
+var finishFlag;
+ 
+//The initialization of the variable+++++++++++++++++++++++++++++++++++++++++++++
+ 
+function initList() {
+    var n = 0;
+    var mid; 
+    var i;
+    
+    
+    
+    //The sequence that you should sort
+    
+    lstMember[n] = new Array();
+
+    for (i=0; i<namMember.length; i++) {
+        lstMember[n][i] = i;
+    }
+    
+    parent[n] = -1;
+    totalSize = 0;
+    
+    n++;
+    
+    for (i=0; i<lstMember.length; i++) {
+    
+    //And element divides it in two/more than two
+    
+    //Increase divided sequence of last in first member
+    
+        if(lstMember[i].length>=2) {
+    
+            mid = Math.ceil(lstMember[i].length/2);
+        
+            lstMember[n] = new Array();
+            lstMember[n] = lstMember[i].slice(0,mid);
+            
+            totalSize += lstMember[n].length;
+            
+            parent[n] = i;
+            n++;
+            
+            lstMember[n] = new Array();
+            lstMember[n] = lstMember[i].slice(mid,lstMember[i].length);
+            
+            totalSize += lstMember[n].length;
+            
+            parent[n] = i;
+            n++;
+        
+        }
+    
+    }
+    
+    
+    
+    //Preserve this sequence
+    
+    for (i=0; i<namMember.length; i++) {
+        rec[i] = 0; 
+    }
+    
+    nrec = 0;
+    
+    
+    
+    //List that keeps your results
+    
+    //Value of link initial
+    
+    // Value of link initial
+    
+    for (i=0; i<=namMember.length; i++) {
+        equal[i] = -1;
+    }
+    
+    
+    
+    cmp1 = lstMember.length-2;
+    cmp2 = lstMember.length-1;
+
+    head1 = 0;
+    head2 = 0;
+    
+    numQuestion = 1;
+
+    finishSize = 0;
+    finishFlag = 0;
+ 
+}
+ 
+ 
+ 
+//&#12522;&#12473;&#12488;&#12398;&#12477;&#12540;&#12488;+++++++++++++++++++++++++++++++++++++++++++
+ 
+//flag&#65306;Don't know characters
+ 
+// -1&#65306;Chose the left
+ 
+// 0&#65306;Tie
+ 
+// 1&#65306;Chose the right
+ 
+function sortList(flag) {
+ 
+    var i;
+    var str;
+            
+    //rec preservation
+    
+    if (flag<0) {
+    
+        rec[nrec] = lstMember[cmp1][head1];
+        
+        head1++;
+        nrec++;
+        finishSize++;
+        
+        while (equal[rec[nrec-1]]!=-1) {
+        
+            rec[nrec] = lstMember[cmp1][head1];
+            head1++; 
+            nrec++;
+            finishSize++;
+        
+        }
+    
+    }
+    
+    else if (flag>0) {
+    
+        rec[nrec] = lstMember[cmp2][head2];
+        
+        head2++;    
+        nrec++; 
+        finishSize++;
+        
+        while (equal[rec[nrec-1]]!=-1) {
+        
+            rec[nrec] = lstMember[cmp2][head2];
+            head2++;
+            nrec++;
+            finishSize++;
+        
+        }
+    
+    }
+    
+    else {
+    
+        rec[nrec] = lstMember[cmp1][head1];
+        head1++;
+        nrec++;
+        finishSize++;
+        
+        while (equal[rec[nrec-1]]!=-1) {
+        
+            rec[nrec] = lstMember[cmp1][head1]; 
+            head1++;
+            nrec++;
+            finishSize++;
+        
+        }
+    
+        equal[rec[nrec-1]] = lstMember[cmp2][head2];
+        rec[nrec] = lstMember[cmp2][head2];
+
+        head2++;
+        nrec++;
+        finishSize++;
+        
+        while (equal[rec[nrec-1]]!=-1) {
+        
+            rec[nrec] = lstMember[cmp2][head2];
+            head2++;
+            nrec++;
+            finishSize++;
+            
+        }
+    
+    }
+    
+    
+    
+    //Processing after finishing with one list
+    
+    if (head1<lstMember[cmp1].length && head2==lstMember[cmp2].length) {
+    
+        //List the remainder of cmp2 copies, list cmp1 copies when finished scanning
+        
+        while (head1<lstMember[cmp1].length){
+        
+            rec[nrec] = lstMember[cmp1][head1];
+            
+            head1++;
+            nrec++;
+            finishSize++;
+        
+        }
+        
+    }
+        
+    else if (head1==lstMember[cmp1].length && head2<lstMember[cmp2].length) {
+        
+        //List the remainder of cmp1 copies, list cmp2 copies when finished scanning
+        
+        while (head2<lstMember[cmp2].length){
+        
+            rec[nrec] = lstMember[cmp2][head2];
+            
+            head2++;
+            nrec++;
+            finishSize++;
+        
+        }
+    
+    }
+    
+    
+    
+    //When it arrives at the end of both lists
+    
+    //Update a pro list
+    
+    if (head1==lstMember[cmp1].length && head2==lstMember[cmp2].length) {
+    
+        for (i=0; i<lstMember[cmp1].length+lstMember[cmp2].length; i++) { 
+            lstMember[parent[cmp1]][i] = rec[i];
+        }
+        
+        lstMember.pop();
+        lstMember.pop();
+        
+        cmp1 = cmp1-2;
+        cmp2 = cmp2-2;
+        head1 = 0;
+        head2 = 0;
+        
+        
+        
+        //Initialize the rec before performing the new comparison
+        
+        if (head1==0 && head2==0) {
+        
+            for (i=0; i<namMember.length; i++) {   
+                rec[i] = 0;
+            }
+            
+            nrec = 0;
+        
+        }
+    
+    }
+    
+    if (cmp1<0) {
+    
+        str = "battle #"+(numQuestion-1)+", "+Math.floor(finishSize*100/totalSize)+"% sorted.";
+        document.getElementById("battleNumber").innerHTML = str;
+    
+        showResult();
+        finishFlag = 1;
+    
+    }
+    
+    else {
+        showImage();
+    }
+ 
+}
+ 
+ 
+ 
+//The results+++++++++++++++++++++++++++++++++++++++++++++++
+ 
+//&#38918;&#20301;=Rank/Grade/Position/Standing/Status
+ 
+//&#21517;&#21069;=Identification term
+ 
+function showResult() {
+ 
+    var ranking = 1;
+    var sameRank = 1;
+    var str = "";
+    var i;
+    
+    //str += "<table style=\"width:200px; font-size:18px; line-height:120%; margin-left:auto; margin-right:auto; border:1px solid #000; border-collapse:collapse\" align=\"center\">";
+    //str += "<tr><td style=\"color:#ffffff; background-color:#e097d9; text-align:center;\">rank<\/td><td style=\"color:#ffffff; background-color:#e097d9; text-align:center;\">options<\/td><\/tr>";
+    str += "<table class=\"resultTable\" align=\"center\">";
+    str += "<tr><td style=\"color:#000; background-color:#22ccd4; text-align:center;\">rank<\/td><td style=\"color:#000; background-color:#22ccd4; text-align:center;\">options<\/td><\/tr>";
+    
+    for (i=0; i<namMember.length; i++) {
+    
+        str += "<tr><td style=\" text-align:center; width: 100px; line-height:170%; padding-right:-50%;\">"+ranking+"<\/td><td style=\"line-height:200%; padding-left:-50%;\">"+namMember[lstMember[0][i]]+"<\/td><\/tr>";
+        if (i<namMember.length-1) {
+            if (equal[lstMember[0][i]]==lstMember[0][i+1]) {
+            sameRank++;
+            } 
+            else {
+                ranking += sameRank;
+                sameRank = 1;
+            }
+        }
+    }
+    
+    str += "<\/table>";
+    document.getElementById("resultField").innerHTML = str;
+ 
+}
+ 
+//Indicates two elements to compare+++++++++++++++++++++++++++++++++++
+ 
+function showImage() {
+ 
+    var str0 = "battle #"+numQuestion+", "+Math.floor(finishSize*100/totalSize)+"% sorted.";
+    var str1 = ""+toNameFace(lstMember[cmp1][head1]);
+    var str2 = ""+toNameFace(lstMember[cmp2][head2]);
+
+    // for images: <img src=\"http://placehold.it/350x350\" width=\"400px\" height=\"150px\">"
+    document.getElementById("battleNumber").innerHTML = str0; 
+
+    // ----------------------- update the pictures -------------------------
+
+    // First picture
+    switch (str1) {
+        case "dwight fairfield": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"dwight_png\" alt=\"the dwight\" src=\"res/dwight.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/dwight-hover.png' alt='dwight' class='img-back'><img src='res/dwight.png' alt='dwight' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/dwight.png\")";
+            break;
+        }
+        case "meg thomas": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"meg_png\" alt=\"meg\" src=\"res/meg.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/meg-hover.png' alt='meg' class='img-back'><img src='res/meg.png' alt='meg' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/meg.png\")";
+            break;
+        }
+        case "claudette morel": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"claudette_png\" alt=\"the claudette\" src=\"res/claudette.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/claudette-hover.png' alt='claudette' class='img-back'><img src='res/claudette.png' alt='claudette' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/claudette.png\")";
+            break;
+        }
+        case "jake park": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jake_png\" alt=\"the jake\" src=\"res/jake.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/jake-hover.png' alt='jake' class='img-back'><img src='res/jake.png' alt='jake' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jake.png\")";
+            break;
+        }
+        case "nea karlsson": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"nea_png\" alt=\"nea\" src=\"res/nea.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/nea-hover.png' alt='nea' class='img-back'><img src='res/nea.png' alt='nea' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/nea.png.png\")";
+            break;
+        }
+        case "laurie strode": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"laurie_png\" alt=\"the laurie\" src=\"res/laurie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/laurie-hover.png' alt='laurie' class='img-back'><img src='res/laurie.png' alt='laurie' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/laurie.png\")";
+            break;
+        }
+        case "ace visconti": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"ace_png\" alt=\"the ace\" src=\"res/ace.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/ace-hover.png' alt='ace' class='img-back'><img src='res/ace.png' alt='ace' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/ace.png\")";
+            break;
+        }
+        case "bill overbeck": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"bill_png\" alt=\"the bill\" src=\"res/bill.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/bill-hover.png' alt='bill' class='img-back'><img src='res/bill.png' alt='bill' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/bill.png\")";
+            break;
+        }
+        case "feng min": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"feng_png\" alt=\"feng\" src=\"res/feng.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/feng-hover.png' alt='feng' class='img-back'><img src='res/feng.png' alt='feng' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/feng.png\")";
+            break;
+        }
+        case "david king": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"david_png\" alt=\"david\" src=\"res/david.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/david-hover.png' alt='david' class='img-back'><img src='res/david.png' alt='david' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/david.png\")";
+            break;
+        }
+        case "quentin smith": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"quentin_png\" alt=\"the quentin\" src=\"res/quentin.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/quentin-hover.png' alt='quentin' class='img-back'><img src='res/quentin.png' alt='quentin' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/quentin.png\")";
+            break;
+        }
+        case "detective tapp": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"tapp_png\" alt=\"the tapp\" src=\"res/tapp.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/tapp-hover.png' alt='tapp' class='img-back'><img src='res/tapp.png' alt='tapp' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/tapp.png\")";
+            break;
+        }
+        case "kate denson": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"kate_png\" alt=\"the kate\" src=\"res/kate.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/kate-hover.png' alt='kate' class='img-back'><img src='res/kate.png' alt='kate' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/kate.png\")";
+            break;
+        }
+        case "adam francis": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"adam_png\" alt=\"the adam\" src=\"res/adam.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/adam-hover.png' alt='adam' class='img-back'><img src='res/adam.png' alt='adam' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/adam.png\")";
+            break;
+        }
+        case "jeff johansen": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jeff_png\" alt=\"the jeff\" src=\"res/jeff.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/jeff-hover.png' alt='jeff' class='img-back'><img src='res/jeff.png' alt='jeff' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jeff.png\")";
+            break;
+        }
+        case "jane romero": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jane_png\" alt=\"the jane\" src=\"res/jane.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/jane-hover.png' alt='jane' class='img-back'><img src='res/jane.png' alt='jane' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jane.png\")";
+            break;
+        }
+        case "ashley j. williams": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"ashley_png\" alt=\"the ashley\" src=\"res/ashley.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/ashley-hover.png' alt='ashley' class='img-back'><img src='res/ashley.png' alt='ashley' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/ashley.png\")";
+            break;
+        }
+        case "nancy wheeler": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"nancy_png\" alt=\"the nancy\" src=\"res/nancy.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/nancy-hover.png' alt='nancy' class='img-back'><img src='res/nancy.png' alt='nancy' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/nancy.png\")";
+            break;
+        }
+        case "steve harrington": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"steve_png\" alt=\"the steve\" src=\"res/steve.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/steve-hover.png' alt='steve' class='img-back'><img src='res/steve.png' alt='steve' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/steve.png\")";
+            break;
+        }
+        case "yui kimura": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"yui_png\" alt=\"the pyramid head\" src=\"res/yui.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/yui-hover.png' alt='yui' class='img-back'><img src='res/yui.png' alt='yui' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/yui.png\")";
+            break;
+        }
+        case "zarina kassir": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"zarina_png\" alt=\"zarina\" src=\"res/zarina.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/zarina-hover.png' alt='zarina' class='img-back'><img src='res/zarina.png' alt='zarina' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/zarina.png\")";
+            break;
+        }
+        case "cheryl mason": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"cheryl_png\" alt=\"the cheryl\" src=\"res/cheryl.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/cheryl-hover.png' alt='cheryl' class='img-back'><img src='res/cheryl.png' alt='cheryl' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/cheryl.png\")";
+            break;
+        }
+        case "felix richter": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"felix_png\" alt=\"the felix\" src=\"res/felix.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/felix-hover.png' alt='felix' class='img-back'><img src='res/felix.png' alt='felix' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/felix.png\")";
+            break;
+        }
+        case "elodie rakoto": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"elodie_png\" alt=\"the elodie\" src=\"res/elodie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/elodie-hover.png' alt='elodie' class='img-back'><img src='res/elodie.png' alt='elodie' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/elodie.png\")";
+            break;
+        }
+        case "yun-jin lee": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"yun-jin_png\" alt=\"the yun-jin\" src=\"res/yun-jin.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/yun-jin-hover.png' alt='yun-jin' class='img-back'><img src='res/yun-jin.png' alt='yun-jin' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/yun-jin.png\")";
+            break;
+        }
+        case "jill valentine": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jill_png\" alt=\"the jill\" src=\"res/jill.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/jill-hover.png' alt='jill' class='img-back'><img src='res/jill.png' alt='jill' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jill.png\")";
+            break;
+        }
+        case "leon s. kennedy": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"leon_png\" alt=\"the leon\" src=\"res/leon.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/leon-hover.png' alt='leon' class='img-back'><img src='res/leon.png' alt='leon' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/leon.png\")";
+            break;
+        }
+        case "mikaela reid": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"mikaela_png\" alt=\"the mikaela\" src=\"res/mikaela.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/mikaela-hover.png' alt='mikaela' class='img-back'><img src='res/mikaela.png' alt='mikaela' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/mikaela.png\")";
+            break;
+        }
+        case "jonah vasquez": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jonah_png\" alt=\"jonah\" src=\"res/jonah.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/jonah-hover.png' alt='jonah' class='img-back'><img src='res/jonah.png' alt='jonah' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jonah.png\")";
+            break;
+        }
+        case "yoichi asakawa": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"yoichi_png\" alt=\"the yoichi\" src=\"res/yoichi.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/yoichi-hover.png' alt='yoichi' class='img-back'><img src='res/yoichi.png' alt='yoichi' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/yoichi.png\")";
+            break;
+        }
+        case "haddie kaur": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("leftField").innerHTML = "<div class='img-area'> <img src='res/haddie-hover.png' alt='haddie' class='img-back'><img src='res/haddie.png' alt='haddie' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "ada wong": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"ada_png\" alt=\"the skull merchant\" src=\"res/ada.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/ada-hover.png' alt='ada' class='img-back'><img src='res/ada.png' alt='ada' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "rebecca chambers": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/rebecca-hover.png' alt='rebecca' class='img-back'><img src='res/rebecca.png' alt='rebecca' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "vittorio toscano": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/vittorio-hover.png' alt='vittorio' class='img-back'><img src='res/vittorio.png' alt='vittorio' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "thalita lyra": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/thalita-hover.png' alt='thalita' class='img-back'><img src='res/thalita.png' alt='thalita' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "renato lyra": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/renato-hover.png' alt='renato' class='img-back'><img src='res/renato.png' alt='renato' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+
+    }
+    // Second picture
+    switch (str2) {
+        case "dwight fairfield": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"dwight_png\" alt=\"the dwight\" src=\"res/dwight.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/dwight-hover.png' alt='dwight' class='img-back'><img src='res/dwight.png' alt='dwight' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/dwight.png\")";
+            break;
+        }
+        case "meg thomas": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"meg_png\" alt=\"the meg\" src=\"res/meg.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/meg-hover.png' alt='meg' class='img-back'><img src='res/meg.png' alt='meg' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/meg.png\")";
+            break;
+        }
+        case "claudette morel": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"claudette_png\" alt=\"the claudette\" src=\"res/claudette.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/claudette-hover.png' alt='claudette' class='img-back'><img src='res/claudette.png' alt='claudette' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/claudette.png\")";
+            break;
+        }
+        case "jake park": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"jake_png\" alt=\"the jake\" src=\"res/jake.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/jake-hover.png' alt='jake' class='img-back'><img src='res/jake.png' alt='jake' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/jake.png\")";
+            break;
+        }
+        case "nea karlsson": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"myers_png\" alt=\"nea\" src=\"res/nea.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/nea-hover.png' alt='nea' class='img-back'><img src='res/nea.png' alt='nea' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/nea.png.png\")";
+            break;
+        }
+        case "laurie strode": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"laurie_png\" alt=\"the laurie\" src=\"res/laurie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/laurie-hover.png' alt='laurie' class='img-back'><img src='res/laurie.png' alt='laurie' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/laurie.png\")";
+            break;
+        }
+        case "ace visconti": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"ace_png\" alt=\"the ace\" src=\"res/ace.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/ace-hover.png' alt='ace' class='img-back'><img src='res/ace.png' alt='ace' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/ace.png\")";
+            break;
+        }
+        case "bill overbeck": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"bill_png\" alt=\"the bill\" src=\"res/bill.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/bill-hover.png' alt='bill' class='img-back'><img src='res/bill.png' alt='bill' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/bill.png\")";
+            break;
+        }
+        case "feng min": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"feng_png\" alt=\"feng\" src=\"res/feng.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/feng-hover.png' alt='feng' class='img-back'><img src='res/feng.png' alt='feng' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/feng.png\")";
+            break;
+        }
+        case "david king": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"david_png\" alt=\"david\" src=\"res/david.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/david-hover.png' alt='david' class='img-back'><img src='res/david.png' alt='david' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/david.png\")";
+            break;
+        }
+        case "quentin smith": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"quentin_png\" alt=\"the quentin\" src=\"res/quentin.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/quentin-hover.png' alt='quentin' class='img-back'><img src='res/quentin.png' alt='quentin' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/quentin.png\")";
+            break;
+        }
+        case "detective tapp": {
+            //document.getElementById("rightField").innerHTML = "<img id=\"tapp_png\" alt=\"the tapp\" src=\"res/tapp.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/tapp-hover.png' alt='tapp' class='img-back'><img src='res/tapp.png' alt='tapp' class='img-front'></div>"
+            //document.getElementById("rightField").style.backgroundImage = "url(\"res/tapp.png\")";
+            break;
+        }
+        case "kate denson": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"kate_png\" alt=\"the kate\" src=\"res/kate.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/kate-hover.png' alt='kate' class='img-back'><img src='res/kate.png' alt='kate' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/kate.png\")";
+            break;
+        }
+        case "adam francis": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"adam_png\" alt=\"the adam\" src=\"res/adam.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/adam-hover.png' alt='adam' class='img-back'><img src='res/adam.png' alt='adam' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/adam.png\")";
+            break;
+        }
+        case "jeff johansen": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jeff_png\" alt=\"the jeff\" src=\"res/jeff.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/jeff-hover.png' alt='jeff' class='img-back'><img src='res/jeff.png' alt='jeff' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jeff.png\")";
+            break;
+        }
+        case "jane romero": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jane_png\" alt=\"the jane\" src=\"res/jane.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/jane-hover.png' alt='jane' class='img-back'><img src='res/jane.png' alt='jane' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jane.png\")";
+            break;
+        }
+        case "ashley j. williams": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"ashley_png\" alt=\"the ashley\" src=\"res/ashley.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/ashley-hover.png' alt='ashley' class='img-back'><img src='res/ashley.png' alt='ashley' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/ashley.png\")";
+            break;
+        }
+        case "nancy wheeler": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"nancy_png\" alt=\"the nancy\" src=\"res/nancy.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/nancy-hover.png' alt='nancy' class='img-back'><img src='res/nancy.png' alt='nancy' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/nancy.png\")";
+            break;
+        }
+        case "steve harrington": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"steve_png\" alt=\"the steve\" src=\"res/steve.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/steve-hover.png' alt='steve' class='img-back'><img src='res/steve.png' alt='steve' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/steve.png\")";
+            break;
+        }
+        case "yui kimura": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"yui_png\" alt=\"the pyramid head\" src=\"res/yui.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/yui-hover.png' alt='yui' class='img-back'><img src='res/yui.png' alt='yui' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/yui.png\")";
+            break;
+        }
+        case "zarina kassir": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"zarina_png\" alt=\"zarina\" src=\"res/zarina.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/zarina-hover.png' alt='zarina' class='img-back'><img src='res/zarina.png' alt='zarina' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/zarina.png\")";
+            break;
+        }
+        case "cheryl mason": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"cheryl_png\" alt=\"the cheryl\" src=\"res/cheryl.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/cheryl-hover.png' alt='cheryl' class='img-back'><img src='res/cheryl.png' alt='cheryl' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/cheryl.png\")";
+            break;
+        }
+        case "felix richter": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"felix_png\" alt=\"the felix\" src=\"res/felix.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/felix-hover.png' alt='felix' class='img-back'><img src='res/felix.png' alt='felix' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/felix.png\")";
+            break;
+        }
+        case "elodie rakoto": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"elodie_png\" alt=\"the elodie\" src=\"res/elodie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/elodie-hover.png' alt='elodie' class='img-back'><img src='res/elodie.png' alt='elodie' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/elodie.png\")";
+            break;
+        }
+        case "yun-jin lee": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"yun-jin_png\" alt=\"the yun-jin\" src=\"res/yun-jin.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/yun-jin-hover.png' alt='yun-jin' class='img-back'><img src='res/yun-jin.png' alt='yun-jin' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/yun-jin.png\")";
+            break;
+        }
+        case "jill valentine": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jill_png\" alt=\"the jill\" src=\"res/jill.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/jill-hover.png' alt='jill' class='img-back'><img src='res/jill.png' alt='jill' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jill.png\")";
+            break;
+        }
+        case "leon s. kennedy": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"leon_png\" alt=\"the leon\" src=\"res/leon.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/leon-hover.png' alt='leon' class='img-back'><img src='res/leon.png' alt='leon' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/leon.png\")";
+            break;
+        }
+        case "mikaela reid": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"mikaela_png\" alt=\"the mikaela\" src=\"res/mikaela.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/mikaela-hover.png' alt='mikaela' class='img-back'><img src='res/mikaela.png' alt='mikaela' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/mikaela.png\")";
+            break;
+        }
+        case "jonah vasquez": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"jonah_png\" alt=\"jonah\" src=\"res/jonah.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/jonah-hover.png' alt='jonah' class='img-back'><img src='res/jonah.png' alt='jonah' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/jonah.png\")";
+            break;
+        }
+        case "yoichi asakawa": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"yoichi_png\" alt=\"the yoichi\" src=\"res/yoichi.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/yoichi-hover.png' alt='yoichi' class='img-back'><img src='res/yoichi.png' alt='yoichi' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/yoichi.png\")";
+            break;
+        }
+        case "haddie kaur": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/haddie-hover.png' alt='haddie' class='img-back'><img src='res/haddie.png' alt='haddie' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "ada wong": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"ada_png\" alt=\"the skull merchant\" src=\"res/ada.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/ada-hover.png' alt='ada' class='img-back'><img src='res/ada.png' alt='ada' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "rebecca chambers": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/rebecca-hover.png' alt='rebecca' class='img-back'><img src='res/rebecca.png' alt='rebecca' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "vittorio toscano": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/vittorio-hover.png' alt='vittorio' class='img-back'><img src='res/vittorio.png' alt='vittorio' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "thalita lyra": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/thalita-hover.png' alt='thalita' class='img-back'><img src='res/thalita.png' alt='thalita' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+        case "renato lyra": {
+            //document.getElementById("leftField").innerHTML = "<img id=\"haddie_png\" alt=\"the skull merchant\" src=\"res/haddie.png\" width=\"300px\" height=\"350px\">";
+            document.getElementById("rightField").innerHTML = "<div class='img-area'> <img src='res/renato-hover.png' alt='renato' class='img-back'><img src='res/renato.png' alt='renato' class='img-front'></div>"
+            //document.getElementById("leftField").style.backgroundImage = "url(\"res/haddie.png\")";
+            break;
+        }
+
+
+    }
+
+    //document.getElementById("leftField").innerHTML = "<img src=\"res/dwight.png\" width=\"300px\" height=\"350px\">"; 
+    //document.getElementById("leftField").innerHTML = str1; 
+    //document.getElementById("rightField").innerHTML = str2;
+    numQuestion++;
+    
+}
+ 
+ 
+ 
+//Convert numeric value into a name (emoticon)+++++++++++++++++++++++++++++++
+ 
+function toNameFace(n) {
+    var str = namMember[n];
+    /*
+    str += '<br />'; 
+    switch(n) { 
+    //case -1 Because it is a sample, delete it 
+    case -1: str+=""; break; 
+    }*/ 
+    return str;
+}
+//-->
+</script>
+ <head>
+    <title> dead by daylight killers </title>
+    <link rel="icon" type="image/png" href="res/icon.png">
+ </head>
+<link rel="stylesheet" href="styles.css">
+ 
+<body text="#000000" bgcolor="#ffffff" link="#e097d9" vlink="#e097d9" alink="#79a2c9">
+ 
+<center>
+    <br><br>
+    <b>dead by daylight killers sorter</b>
+    <br><br>
+    <p class="instructions"> 
+        pick which killer you like to face more in each battle to get <br>
+        an accurate list of your favourite killers in dead by daylight.
+        <br><br>
+    </p>
+    </center>
+</p>
+ 
+<table id="mainTable" align="center" padding="0">
+    <tbody>
+        <tr>
+            <td id="battleNumber" colspan="3" class="note">
+                <<p>
+                    battle #1, 0% sorted.
+                </p>
+            </td>
+        </tr>
+    
+    <tr>
+        <td id="leftField" onclick="if(finishFlag==0) sortList(-1);" rowspan="2" style="text-align:center;"></td>
+        <td class="middleField" onclick="if(finishFlag==0) sortList(0);" style="text-align:center;">   
+            i like both
+        </td> 
+        <td id="rightField" onclick="if(finishFlag==0) sortList(1);" rowspan="2"style="text-align:center;"></td> 
+    </tr>
+    
+    <tr>
+        <td class="middleField" id="bottomField" onclick="if(finishFlag==0) sortList(0);"style="text-align:center;"> 
+            no opinion 
+        </td>
+    </tr>
+    </tbody>
+</table>
+    <p class="instructions" style="font-size: 6px; color: rgb(153, 153, 153);"> 
+        <span class="warning">please note:</span> hitting 'no opinion' or 'i like both' frequently will negatively affect your results. hitting
+        backspace will result in all your progress being lost. please only do so if you think you made a fatal mistake.
+    </p>
+ <br> <br>
+<div id="resultField" style="text-align: center;">
+    
+</div>
+ 
+<script type="text/javascript">
+        initList(); 
+        showImage(); 
+    //-->
+</script>
+
+<div class="socialmedia">
+    <br>
+    <span style="color: rgb(170, 170, 170); font-size: 10px;"><p> made by themsgcentre</p></span>
+    <p> follow me on social media!<br><br></p>
+
+    <div class="row">
+        <div class='social-area'>
+            <a href="https://twitter.com/themsgcentre">
+            <img src='res/twitter-hover.png' alt='twitter' class='img-back'>
+            <img src='res/twitter.png' alt='twitter' class='img-front'>
+            </a> 
+        </div>
+
+        <div class='social-area'>
+            <a href="https://instagram.com/hnnh.mg">
+            <img src='res/instagram-hover.png' alt='instagram' class='img-back'>
+            <img src='res/instagram.png' alt='instagram' class='img-front'>
+            </a> 
+        </div>
+
+        <div class='social-area'>
+            <a href="https://www.tiktok.com/@themsgcentre?_t=8c3rZI8V3lb&_r=1">
+            <img src='res/tiktok-hover.png' alt='tiktok' class='img-back'>
+            <img src='res/tiktok.png' alt='tiktok' class='img-front'>
+            </a> 
+        </div>
+
+        <div class='social-area'>
+            <a href="https://open.spotify.com/user/kf0p74rfybwim9emlzaozegxz?si=c7baf589dad34751">
+            <img src='res/spotify-hover.png' alt='spotify' class='img-back'>
+            <img src='res/spotify.png' alt='spotify' class='img-front'>
+            </a> 
+        </div>
+    </div>
+</div>
+
+<p class="other">
+    <center>
+        <br>
+        <br>
+        <br>
+        <p class="instructions" style="font-size: 10px"> <span style="color: #22ccd4">DISCLAIMER:</span> this is a modified version of the code provided by <a href="http://biasorter.tumblr.com/">biasorter</a>
+            on tumblr. credits for the original source code go to them. 
+        </p>
+        <br><br><br><br>
+    </center>
+</small>
+</p>
+ 
+</html>
